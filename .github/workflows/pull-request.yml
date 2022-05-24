@@ -1,5 +1,5 @@
 ---
-name: api
+name: pull-request
 on: [pull_request]
 
 concurrency:
