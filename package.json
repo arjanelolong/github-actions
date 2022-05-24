@@ -1,0 +1,19 @@
+{
+  "name": "github-actions",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arjanelolong2022/github-actions.git"
+  },
+  "author": "Arjane Lolong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arjanelolong2022/github-actions/issues"
+  },
+  "homepage": "https://github.com/arjanelolong2022/github-actions#readme",
+  "workspaces":[
+    "api",
+    "web"
+  ]
+}

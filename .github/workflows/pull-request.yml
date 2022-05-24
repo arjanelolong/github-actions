@@ -1,0 +1,78 @@
+---
+name: api
+on: [pull_request]
+
+concurrency:
+  group: ci-${{ github.head_ref }}
+  cancel-in-progress: true
+  
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions/cache@v2.1.6
+        with:
+          path: |
+            node_modules
+            api/node_modules
+            web/node_modules
+          key: node_modules-${{ hashFiles('./package-lock.json') }}
+      - run: npm install
+
+  test:
+    needs: install
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspaces: 
+          - api
+          - web
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions/cache@v2.1.6
+        with:
+          path: |
+            node_modules
+            api/node_modules
+            web/node_modules
+          key: node_modules-${{ hashFiles('./package-lock.json') }}
+      - run: npm run test -w ${{ matrix.workspaces }} --if-present
+      - run: npm run lint -w ${{ matrix.workspaces }} --if-present
+  
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspaces: 
+          - api
+          - web
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - uses: actions/cache@v2.1.6
+        with:
+          path: |
+            node_modules
+            api/node_modules
+            web/node_modules
+          key: node_modules-${{ hashFiles('./package-lock.json') }}
+      - run: npm run build -w ${{ matrix.workspaces }} --if-present
+
+
+  

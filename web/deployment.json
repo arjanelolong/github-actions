@@ -1,0 +1,15 @@
+{
+	"serviceName": "experiment01-web",
+	"containers": {
+			"main": {
+					"image": ":experiment01-web.web.latest",
+					"ports": {
+							"3000": "HTTP"
+					}
+			}
+	},
+	"publicEndpoint": {
+			"containerName": "main",
+			"containerPort": 3000
+	}
+}
